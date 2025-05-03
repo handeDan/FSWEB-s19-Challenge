@@ -2,10 +2,9 @@ package com.twitter.demo.controller;
 
 import com.twitter.demo.entity.Tweet;
 import com.twitter.demo.service.TweetService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/tweet")
@@ -43,5 +42,4 @@ public class TweetController {
   public void deleteTweet(@PathVariable Long id) {
     tweetService.deleteTweet(id);
   }
-
 }
