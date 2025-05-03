@@ -32,8 +32,8 @@ public class TweetService {
     return tweetRepository.findByUserId(userId);
   }
 
-  public List<Tweet> getAllTweets() {
-    return tweetRepository.findAll();
+  public Tweet getTweetById(Long id) {
+    return tweetRepository.findById(id).orElseThrow(() -> new RuntimeException("Tweet not found"));
   }
 
   public void deleteTweet(Long tweetId) {
