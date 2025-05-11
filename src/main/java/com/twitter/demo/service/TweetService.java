@@ -4,6 +4,7 @@ import com.twitter.demo.entity.Tweet;
 import com.twitter.demo.entity.User;
 import com.twitter.demo.repository.TweetRepository;
 import com.twitter.demo.repository.UserRepository;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,9 +23,19 @@ public class TweetService {
   }
 
   // methods:
-  public Tweet createTweet(Long userId, Tweet tweet) {
-    User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+  public Tweet createTweet(String username, String text) {
+    System.out.println("1: " + username);
+    System.out.println(userRepository.findAll());
+    User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+    if (user == null) {
+      System.out.println("x1User not found");
+      throw new RuntimeException("User not found");
+    }
+    Tweet tweet = new Tweet();
+    tweet.setContent(text);
     tweet.setUser(user);
+    tweet.setCreatedAt(LocalDateTime.now());
+
     return tweetRepository.save(tweet);
   }
 
@@ -47,5 +58,9 @@ public class TweetService {
     Tweet existingTweet = tweetRepository.findById(tweetId).orElseThrow(() -> new RuntimeException("Tweet not found"));
     existingTweet.setContent(tweet.getContent());
     return tweetRepository.save(existingTweet);
+  }
+
+  public List<Tweet> getAllTweets() {
+    return tweetRepository.findAllTweets();
   }
 }

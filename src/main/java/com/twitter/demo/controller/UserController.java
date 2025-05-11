@@ -20,12 +20,14 @@ public class UserController {
   // API endpoints:
   @PostMapping("/register")
   public User registerUser(@RequestBody User user) {
-    return userService.registerUser(user);
+    //    return userService.registerUser(user);
+    return null;
   }
 
   @PostMapping("/login")
   public User loginUser(@RequestBody LoginRequest request) {
-    return userService.login(request.getEmail(), request.getPassword());
+    //    return userService.login(request.getEmail(), request.getPassword());
+    return null;
   }
 
   @GetMapping("/user/{id}")

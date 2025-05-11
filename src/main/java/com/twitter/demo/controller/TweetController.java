@@ -1,5 +1,7 @@
 package com.twitter.demo.controller;
 
+import com.twitter.demo.dto.TweetCreateRequest;
+import com.twitter.demo.dto.TweetDto;
 import com.twitter.demo.entity.Tweet;
 import com.twitter.demo.service.TweetService;
 import java.util.List;
@@ -18,9 +20,28 @@ public class TweetController {
     this.tweetService = tweetService;
   }
 
-  @PostMapping
-  public Tweet createTweet(@RequestParam Long userId, @RequestBody Tweet tweet) {
-    return tweetService.createTweet(userId, tweet);
+  // for test:
+  @GetMapping("/all")
+  public List<TweetDto> getAllTweetList() {
+    List<Tweet> count = tweetService.getAllTweets();
+    System.out.println("count.++ " + count.toString());
+    return tweetService.getAllTweets().stream()
+        .map(
+            tweet ->
+                new TweetDto(
+                    tweet.getId(),
+                    tweet.getContent(),
+                    tweet.getCreatedAt().toString(),
+                    tweet.getUser().getId(),
+                    tweet.getUser().getUsername()))
+        .toList();
+  }
+
+  @PostMapping("/add")
+  public Tweet createTweet(@RequestBody TweetCreateRequest request) {
+    System.out.println("2: " + request.getText());
+
+    return tweetService.createTweet(request.getUser(), request.getText());
   }
 
   @GetMapping("/findByUserId")

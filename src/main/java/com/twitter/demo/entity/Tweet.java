@@ -3,15 +3,14 @@ package com.twitter.demo.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Entity
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@Table(name = "Tweet", schema = "tw")
+@Entity
+@Table(name = "tweets", schema = "tw")
 public class Tweet {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,4 +26,19 @@ public class Tweet {
   @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
+
+  @Override
+  public String toString() {
+    return "Tweet{"
+        + "id="
+        + id
+        + ", content='"
+        + content
+        + '\''
+        + ", createdAt="
+        + createdAt
+        + ", userId="
+        + (user != null ? user.getId() : null)
+        + '}';
+  }
 }
